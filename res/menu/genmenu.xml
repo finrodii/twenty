@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/suggestions"
+          android:title="Suggestions"
+          android:icon="@drawable/suggestion" />
+    <item android:id="@+id/todo"
+          android:title="Todo"
+          android:icon="@drawable/todo" />
+   <item android:id="@+id/documents"
+   		android:title="Documents"
+   		android:icon="@drawable/documents" />
+   <item android:id="@+id/home"
+   		android:title="Home"
+   		android:icon="@drawable/home" />
+   <item android:id="@+id/more"
+   		android:title="More"
+   		android:icon="@drawable/more" />
+</menu>
