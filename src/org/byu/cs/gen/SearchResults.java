@@ -1,5 +1,8 @@
 package org.byu.cs.gen;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -11,7 +14,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.SimpleAdapter;
 
 public class SearchResults extends ListActivity {
 	
@@ -23,48 +26,64 @@ public class SearchResults extends ListActivity {
         new SearchLoader().execute(new String[0]);
 	}
 	
-	private class SearchLoader extends AsyncTask<String,String,String[]> {
+	private class SearchLoader extends AsyncTask<String,String,ArrayList<HashMap<String,String>>> {
 		
 		private ProgressDialog searchProgress;
 		
 		@Override
 		public void onPreExecute() {
-			searchProgress = ProgressDialog.show(instanceRef, "", "Searching for missing ancestors . . .");
+			searchProgress = ProgressDialog.show(instanceRef, "", "Searching for missing ancestors . .");
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
-		protected String[] doInBackground(String... arg0) {
+		protected ArrayList<HashMap<String,String>> doInBackground(String... arg0) {
 			
-			HttpResponse response;
+			ArrayList<HashMap<String,String>> result = new ArrayList<HashMap<String,String>>();
 			try {
-				response = HttpInterface.getInstance().executeGet("people/search.json");
-				String result = HttpInterface.getResponseBody(response);
-				Map<String,Object> parseResult = HttpInterface.parseJSON(result);
+				HttpResponse response = HttpInterface.getInstance().executeGet("people/search.json");
+				String httpResult = HttpInterface.getResponseBody(response);
+				Map<String,Object> parseResult = HttpInterface.parseJSON(httpResult);
 				
 				LinkedList<String> temp = (LinkedList<String>)parseResult.get("people");
 				
-				String[] searchResult = new String[temp.size()];
-				
-				int count = 0;
 				for (String cPerson : temp) {
 					Map<String,Object> personInfo = HttpInterface.parseJSON(cPerson);
-					searchResult[count++] = personInfo.get("full_name").toString();
+					HashMap<String,String> newLine = new HashMap<String,String>();
+					String personName = personInfo.get("full_name").toString();
+					
+					if (personName.equals(""))
+						personName = "Unknown Name (ID: " + personInfo.get("id") + ")";
+					
+					newLine.put("line1", personName);
+					String parentLine = "";
+					if (personInfo.get("father_id") == null && personInfo.get("mother_id") == null) {
+						parentLine = "Missing mother and father";
+					}
+					else if (personInfo.get("father_id") == null) {
+						parentLine = "Missing father";
+					}
+					else {
+						parentLine = "Missing mother";
+					}
+					newLine.put("line2", parentLine);
+					result.add(newLine);
 				}
 				
-				return searchResult;
+				return result;
 				
 			} catch (Exception e) {
 				Log.e("Error", "Problem with HttpClient!", e);
 			}
 			
-			return null;
+			return result;
 		}
 		
 		@Override
-		protected void onPostExecute(String[] result) {
+		protected void onPostExecute(ArrayList<HashMap<String,String>> result) {
 			searchProgress.dismiss();
-			instanceRef.setListAdapter(new ArrayAdapter<String>(instanceRef,android.R.layout.simple_list_item_1, result));
+			SimpleAdapter listItemsAdapter = new SimpleAdapter(instanceRef, result, android.R.layout.two_line_list_item, new String[] {"line1", "line2"}, new int[]{android.R.id.text1, android.R.id.text2});
+			instanceRef.setListAdapter(listItemsAdapter);
 		}
 		
 	}
