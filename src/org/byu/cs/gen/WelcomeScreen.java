@@ -7,6 +7,8 @@ import org.byu.cs.gen.global.HttpInterface;
 import org.byu.cs.gen.global.Settings;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * This is the screen that is diaplyed after a successful login.  It is launched by
+ * going to the special URL twentymingen-app:/// (as defined in AndroidManifest.xml)
+ * @author Scott Slaugh
+ *
+ */
 public class WelcomeScreen extends Activity {
 	
 	private Button logout, search;
@@ -22,6 +30,8 @@ public class WelcomeScreen extends Activity {
 	
 	private Intent mainScreenIntent;
 	private Intent searchIntent;
+	
+	private final Context context = this;
 
 	/** Called when the activity is first created. */
     @Override
@@ -37,6 +47,7 @@ public class WelcomeScreen extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				//Create a new thread to handle the logout task
 				new LogoutTask().execute(new String[0]);
 			}
 		});
@@ -47,33 +58,71 @@ public class WelcomeScreen extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				//Just launch the activity that displays search results.
 				startActivity(searchIntent);
 			}
 		});
         
-        try {
-			HttpResponse response = HttpInterface.getInstance().executeGet("login/verifylogin.json?oauthtok=" + Settings.getInstance().getSessionToken());
-			String result = HttpInterface.getResponseBody(response);
-			Map<String,Object> parseResult = HttpInterface.parseJSON(result);
-			
-			boolean success = (Boolean)parseResult.get("success");
-			
-			if (success) {
-				String finalToken = parseResult.get("sessionid").toString();
-				String username = parseResult.get("username").toString();
+        //Disable the logout button while we verify the login
+        logout.setEnabled(false);
+        
+        //Create a thread to verify the login to prevent UI lock
+        new VerifyLoginTask().execute(new String[0]);
+    }
+    
+    private class VerifyLoginTask extends AsyncTask<String,String,String> {
+    	
+    	private ProgressDialog loginDialog;
+    	
+    	@Override
+    	protected void onPreExecute() {
+    		//Show an indeterminate progress dialog while preparing to login.
+    		loginDialog = ProgressDialog.show(context, "", "Completing login process . . .");
+    	}
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+	        	//Call the verifylogin endpoint in order to complete the login.
+				HttpResponse response = HttpInterface.getInstance().executeGet("login/verifylogin.json?oauthtok=" + Settings.getInstance().getSessionToken());
+				String result = HttpInterface.getResponseBody(response);
+				Map<String,Object> parseResult = HttpInterface.parseJSON(result);
 				
-				Settings.getInstance().setSessionToken(finalToken);
-				Settings.getInstance().setUserName(username);
+				//Make sure we were successful
+				boolean success = (Boolean)parseResult.get("success");
 				
-				welcomeText.setText("Welcome to 20 Minute Genealogist, " + Settings.getInstance().getUserName() + "!");
+				if (success) {
+					//Get the final session token and username
+					String finalToken = parseResult.get("sessionid").toString();
+					String username = parseResult.get("username").toString();
+					
+					Settings.getInstance().setSessionToken(finalToken);
+					Settings.getInstance().setUserName(username);
+					
+					return ("Welcome to 20 Minute Genealogist, " + Settings.getInstance().getUserName() + "!");
+				}
+				else {
+					return null;
+				}
+				
+			} catch (Exception e) {
+				Log.e("Error", "Problem with HttpClient!", e);
 			}
-			else {
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			loginDialog.dismiss();
+			
+			if (result == null) {
 				welcomeText.setText("An error occurred while trying to login to the system!");
 				logout.setEnabled(false);
 			}
-			
-		} catch (Exception e) {
-			Log.e("Error", "Problem with HttpClient!", e);
+			else {
+				welcomeText.setText(result);
+				logout.setEnabled(true);
+			}
 		}
     }
     

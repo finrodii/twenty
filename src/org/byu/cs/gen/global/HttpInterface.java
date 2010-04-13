@@ -27,16 +27,36 @@ import org.json.simple.parser.ParseException;
 
 import android.util.Log;
 
+/**
+ * This singleton class provides a simple interface that can be used to call the web
+ * service.  It provides:
+ * <ul>
+ * <li>Simple interfaces to call the web service.
+ * It prepends the base URL of the web service to each call.</li>
+ * <li>A simple method to convert a JSON string into a Java map object.</li>
+ * </ul>
+ * <b>IMPORTANT:</b> This class uses a custom version of HttpClient that accepts self-signed certificates.
+ * For a production version, the default version of HttpClient should be used and the application
+ * server should not use a self-signed certificate.
+ * <p>
+ * @author Scott Slaugh
+ *
+ */
 public class HttpInterface {
 
 	private static HttpInterface instance;
 
 	private DefaultHttpClient httpClient;
 
-	// public final static String BASEURL =
-	// "http://10.0.2.2:8000/twentyMinGen/";
+	/**
+	 * This is the base URL of the web service.  It is preprended to all web requests.
+	 */
 	public final static String BASEURL = "https://twenty.cs.byu.edu/twenty/";
 
+	/**
+	 * Get the singleton instance.
+	 * @return A HttpInterface instance.
+	 */
 	public static HttpInterface getInstance() {
 		if (instance == null)
 			instance = new HttpInterface();
@@ -44,8 +64,12 @@ public class HttpInterface {
 		return instance;
 	}
 
+	/**
+	 * Create the HttpInterface object
+	 */
 	private HttpInterface() {
 		//This code was taken from http://code.google.com/p/android/issues/detail?id=1946
+		//It creates a version of HttpClient that accepts self-signed certificates.
 		DefaultHttpClient ret = null;
 
 		// sets up parameters
@@ -65,10 +89,13 @@ public class HttpInterface {
 		httpClient = ret;
 	}
 
-	public DefaultHttpClient getHttpClient() {
-		return httpClient;
-	}
-
+	/**
+	 * Perform a GET request using the specified url.
+	 * @param url The url to call.  BASEURL is prepended to the url.
+	 * @return The HttpResponse from the request.
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public HttpResponse executeGet(String url) throws ClientProtocolException,
 			IOException {
 		if (url.startsWith("/"))
@@ -79,6 +106,12 @@ public class HttpInterface {
 		return response;
 	}
 
+	/**
+	 * Get a stirng holding the response body from an HttpResponse.
+	 * @param response The HttpResponse to get the body of.
+	 * @return A string holding the response body.
+	 * @throws IOException
+	 */
 	public static String getResponseBody(HttpResponse response)
 			throws IOException {
 		HttpEntity entity = response.getEntity();
@@ -95,8 +128,13 @@ public class HttpInterface {
 		return result.toString();
 	}
 
+	/**
+	 * Parse a JSON string and return map object.
+	 * @param jsonString The JSON string to parse.  It should be a JSON object.
+	 * @return A map representing the JSON string.
+	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, Object> parseJSON(String jsonString) {
+	public static Map<String, Object> parseJSON(String jsonString) {		
 		JSONParser parser = new JSONParser();
 
 		ContainerFactory containerFactory = new ContainerFactory() {
