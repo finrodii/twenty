@@ -80,13 +80,14 @@ public class WelcomeScreen extends Activity {
     		loginDialog = ProgressDialog.show(context, "", "Completing login process . . .");
     	}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected String doInBackground(String... params) {
 			try {
 	        	//Call the verifylogin endpoint in order to complete the login.
 				HttpResponse response = HttpInterface.getInstance().executeGet("login/verifylogin.json?oauthtok=" + Settings.getInstance().getSessionToken());
 				String result = HttpInterface.getResponseBody(response);
-				Map<String,Object> parseResult = HttpInterface.parseJSON(result);
+				Map<String,Object> parseResult = (Map<String,Object>)HttpInterface.parseJSON(result);
 				
 				//Make sure we were successful
 				boolean success = (Boolean)parseResult.get("success");
@@ -128,13 +129,14 @@ public class WelcomeScreen extends Activity {
     
     private class LogoutTask extends AsyncTask<String,String,String> {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected String doInBackground(String... params) {
 			HttpResponse response;
 			try {
 				response = HttpInterface.getInstance().executeGet("login/logout.json");
 				String result = HttpInterface.getResponseBody(response);
-				Map<String,Object> parseResult = HttpInterface.parseJSON(result);
+				Map<String,Object> parseResult = (Map<String,Object>)HttpInterface.parseJSON(result);
 				
 				boolean success = (Boolean)parseResult.get("success");
 				

@@ -71,6 +71,7 @@ public class TwentyMinuteGen extends Activity {
     		loginDialog = ProgressDialog.show(context, "", "Logging in . . .");
     	}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected Intent doInBackground(String... params) {
 			
@@ -79,7 +80,7 @@ public class TwentyMinuteGen extends Activity {
 				//activity as the callback URL
 				HttpResponse response = HttpInterface.getInstance().executeGet("login/login.json?callback_url=twentymingen-app:///");
 				String result = HttpInterface.getResponseBody(response);
-				Map<String,Object> parseResult = HttpInterface.parseJSON(result);
+				Map<String,Object> parseResult = (Map<String,Object>)HttpInterface.parseJSON(result);
 				
 				//Grab the oauthtok and login URL values from the result
 				String token = parseResult.get("oauthtok").toString();

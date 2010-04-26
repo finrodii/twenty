@@ -1,5 +1,6 @@
 package org.byu.cs.gen.global;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -133,8 +134,7 @@ public class HttpInterface {
 	 * @param jsonString The JSON string to parse.  It should be a JSON object.
 	 * @return A map representing the JSON string.
 	 */
-	@SuppressWarnings("unchecked")
-	public static Map<String, Object> parseJSON(String jsonString) {		
+	public static Object parseJSON(String jsonString) {		
 		JSONParser parser = new JSONParser();
 
 		ContainerFactory containerFactory = new ContainerFactory() {
@@ -148,9 +148,9 @@ public class HttpInterface {
 
 		};
 
-		Map<String, Object> json = null;
+		Object json = null;
 		try {
-			json = (Map<String, Object>) parser.parse(jsonString,
+			json = parser.parse(jsonString,
 					containerFactory);
 		} catch (ParseException e) {
 			Log.i("ReceivedJSON", jsonString);

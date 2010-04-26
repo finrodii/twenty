@@ -3,7 +3,7 @@ package org.byu.cs.gen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -60,16 +60,13 @@ public class SearchResults extends ListActivity {
 				String httpResult = HttpInterface.getResponseBody(response);
 				
 				//Create a map object from the result.
-				Map<String,Object> parseResult = HttpInterface.parseJSON(httpResult);
-				
-				//Get the people list.
-				LinkedList<String> temp = (LinkedList<String>)parseResult.get("people");
+				List<String> parseResult = (List<String>)HttpInterface.parseJSON(httpResult);
 				
 				//Iterate over every person in the list
-				for (String cPerson : temp) {
+				for (String cPerson : parseResult) {
 					//The way the simpleJSON library works is that each subobject in a list
 					//is just a string, so we need to parse that string as well.
-					Map<String,Object> personInfo = HttpInterface.parseJSON(cPerson);
+					Map<String,Object> personInfo = (Map<String,Object>)HttpInterface.parseJSON(cPerson);
 					HashMap<String,String> newLine = new HashMap<String,String>();
 					//Get the person's full name
 					String personName = personInfo.get("full_name").toString();
