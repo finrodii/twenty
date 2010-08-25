@@ -8,39 +8,89 @@
 package org.byu.cs.gen;
 
 public final class R {
+    public static final class array {
+        public static final int priorities=0x7f040000;
+    }
     public static final class attr {
     }
+    public static final class dimen {
+        /**  height of an expanded list item in edit playlist mode 
+         */
+        public static final int expanded_height=0x7f050001;
+        /**  height of a normal list item in edit playlist mode 
+         */
+        public static final int normal_height=0x7f050000;
+    }
     public static final class drawable {
-        public static final int documents=0x7f020000;
-        public static final int home=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int more=0x7f020003;
-        public static final int suggestion=0x7f020004;
-        public static final int todo=0x7f020005;
-        public static final int twentymingenlogo=0x7f020006;
+        public static final int check_off=0x7f020000;
+        public static final int check_on=0x7f020001;
+        public static final int documents=0x7f020002;
+        public static final int home=0x7f020003;
+        public static final int icon=0x7f020004;
+        public static final int more=0x7f020005;
+        public static final int suggestion=0x7f020006;
+        public static final int todo=0x7f020007;
+        public static final int twentymingenlogo=0x7f020008;
     }
     public static final class id {
-        public static final int documents=0x7f060009;
-        public static final int home=0x7f06000a;
-        public static final int loggedinlabel=0x7f060004;
-        public static final int loginbutton=0x7f060002;
-        public static final int logoutbutton=0x7f060005;
-        public static final int more=0x7f06000b;
-        public static final int programlogo=0x7f060000;
-        public static final int searchbutton=0x7f060006;
-        public static final int suggestions=0x7f060007;
-        public static final int todo=0x7f060008;
-        public static final int welcomelabel=0x7f060001;
-        public static final int welcomeprogramlogo=0x7f060003;
+        public static final int birth_date=0x7f080016;
+        public static final int checkbox=0x7f080005;
+        public static final int children_list=0x7f08001a;
+        public static final int confirm_task=0x7f080006;
+        public static final int create=0x7f08000e;
+        public static final int create_list=0x7f08000d;
+        public static final int death_date=0x7f080017;
+        public static final int father_name=0x7f080013;
+        public static final int floating_button=0x7f080001;
+        public static final int home=0x7f08001b;
+        public static final int layout_root=0x7f08000c;
+        public static final int loginbutton=0x7f080009;
+        public static final int logoutbutton=0x7f08000a;
+        public static final int mainlabel=0x7f080008;
+        public static final int marriage_date=0x7f080018;
+        public static final int mother_name=0x7f080014;
+        public static final int ok_priority=0x7f08000f;
+        public static final int person_name=0x7f080010;
+        public static final int person_table=0x7f080012;
+        public static final int programlogo=0x7f080007;
+        public static final int seperate_line=0x7f080011;
+        public static final int seperate_line_2=0x7f080019;
+        public static final int showlist_title=0x7f08000b;
+        public static final int spinner=0x7f080000;
+        public static final int spouse_name=0x7f080015;
+        public static final int task_name=0x7f080002;
+        public static final int task_notes=0x7f080004;
+        public static final int task_person=0x7f080003;
+        public static final int todo=0x7f08001c;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int welcome=0x7f030001;
+        public static final int checklist=0x7f030000;
+        public static final int edit_task=0x7f030001;
+        public static final int main=0x7f030002;
+        public static final int my_expandable_list_content=0x7f030003;
+        public static final int my_expanded_list_item_1=0x7f030004;
+        public static final int my_expanded_list_item_2=0x7f030005;
+        public static final int my_simple_list_item=0x7f030006;
+        public static final int new_list_dialog=0x7f030007;
+        public static final int priority_dialog=0x7f030008;
+        public static final int show_person=0x7f030009;
+        public static final int show_tasks=0x7f03000a;
+        public static final int todo_lists=0x7f03000b;
     }
     public static final class menu {
-        public static final int genmenu=0x7f050000;
+        public static final int genmenu=0x7f070000;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
+        public static final int app_name=0x7f060000;
+        public static final int confirm_task=0x7f060006;
+        public static final int create_list=0x7f060005;
+        public static final int priority_prompt=0x7f060009;
+        public static final int show_person=0x7f060004;
+        public static final int task_name=0x7f060007;
+        public static final int task_notes=0x7f060008;
+        public static final int todo_add_task=0x7f060003;
+        public static final int todo_delete_item=0x7f060002;
+        public static final int todo_delete_list=0x7f060001;
+        public static final int todo_lists=0x7f06000a;
     }
 }

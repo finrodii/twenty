@@ -1,8 +1,10 @@
 package org.byu.cs.gen.global;
 
+import android.util.Log;
+
 /**
  * This singleton class provides access to global application settings.
- * @author Scott Slaugh
+ * @author Scott Slaugh & Seth Dickson
  *
  */
 public class Settings {
@@ -10,14 +12,16 @@ public class Settings {
 	private static Settings instance;
 	
 	private String userName;
-	private String sessionToken;
+	private String sessionID;
+	private String oauthToken;
 	
 	/**
 	 * Construct the settings instance and set default values.
 	 */
 	private Settings() {
 		setUserName("");
-		setSessionToken("");
+		setSessionID("");
+		setOauthToken("");
 	}
 	
 	/**
@@ -25,10 +29,21 @@ public class Settings {
 	 * @return The settings instance.
 	 */
 	public static Settings getInstance() {
-		if (instance == null)
+		if (instance == null){
+			Log.i("twenty","Created new Settings instance");
 			instance = new Settings();
+		}
 		
 		return instance;
+	}
+	
+	/**
+	 * Clear settings instance on logout
+	 */
+	public void clearSettings(){
+		userName = "";
+		sessionID = "";
+		oauthToken = "";
 	}
 
 	/**
@@ -52,23 +67,43 @@ public class Settings {
 	}
 
 	/**
+	 * Set the session id for the application.
+	 * @param session_id The current session id.
+	 * @throws IllegalArgumentException If session_id is null
+	 */
+	public void setSessionID(String session_id) {
+		if (session_id == null)
+			throw new IllegalArgumentException("Session id cannot be null!");
+		
+		this.sessionID = session_id;
+	}
+
+	/**
+	 * Get the current session id.
+	 * @return
+	 */
+	public String getSessionID() {
+		return sessionID;
+	}	
+	
+	/**
 	 * Set the current session token.
 	 * @param sessionToken The session token.
 	 * @throws IllegalArgumentException If session token is null
 	 */
-	public void setSessionToken(String sessionToken) {
-		if (sessionToken == null)
+	public void setOauthToken(String oauthToken) {
+		if (oauthToken == null)
 			throw new IllegalArgumentException("Session token cannot be null!");
 		
-		this.sessionToken = sessionToken;
+		this.oauthToken = oauthToken;
 	}
 
 	/**
 	 * Get the current session token.
 	 * @return The current session token.
 	 */
-	public String getSessionToken() {
-		return sessionToken;
+	public String getOauthToken() {
+		return oauthToken;
 	}
 	
 }

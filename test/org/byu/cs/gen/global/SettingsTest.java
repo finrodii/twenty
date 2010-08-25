@@ -31,16 +31,16 @@ public class SettingsTest {
 	
 	@Test
 	public void testSessionToken() {
-		assertEquals("", settings.getSessionToken());
+		assertEquals("", settings.getOauthToken());
 		
-		settings.setSessionToken("12345");
+		settings.setOauthToken("12345");
 		
-		assertEquals("12345", settings.getSessionToken());
+		assertEquals("12345", settings.getOauthToken());
 	}
 	
 	@Test( expected = IllegalArgumentException.class )
 	public void testNullSessionToken() {
-		settings.setSessionToken(null);
+		settings.setOauthToken(null);
 	}
 	
 }

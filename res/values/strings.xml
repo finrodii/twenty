@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Twenty Minute Genealogist</string>
+    <string name="todo_delete_list">Delete list</string>
+    <string name="todo_delete_item">Delete item</string>
+    <string name="todo_add_task">Add a task</string>
+    <string name="show_person">View Person</string>
+    <string name="create_list">Create list</string>
+    <string name="confirm_task">Confirm</string>
+    <string name="task_name">Task:</string>
+    <string name="task_notes">Notes</string>
+    <string name="priority_prompt">priority</string>
+    <string name="todo_lists">Choose a list</string>
+    
 </resources>

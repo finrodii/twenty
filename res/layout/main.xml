@@ -16,7 +16,7 @@
 	    />
 	    
 	<TextView
-    	android:id="@+id/welcomelabel"
+    	android:id="@+id/mainlabel"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="Welcome to 20 Minute Genealogist!"
@@ -33,6 +33,26 @@
     	android:paddingLeft="30dip"
     	android:paddingRight="30dip"
     	android:layout_centerHorizontal="true"
-    	android:layout_below="@id/welcomelabel"/>
-    
+    	android:layout_below="@id/mainlabel"/>
+    	
+  <Button
+    	android:id="@+id/logoutbutton"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="Logout" 
+    	android:paddingLeft="30dip"
+    	android:paddingRight="30dip"
+    	android:layout_centerHorizontal="true"
+    	android:layout_below="@+id/loginbutton"/>
+    	
+  <!--  Button
+    	android:id="@+id/testbutton"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="test some view" 
+    	android:paddingLeft="30dip"
+    	android:paddingRight="30dip"
+    	android:layout_centerHorizontal="true"
+    	android:layout_below="@+id/logoutbutton"/ -->
+   
 </RelativeLayout>

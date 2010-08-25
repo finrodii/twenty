@@ -12,8 +12,13 @@ import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -40,7 +45,7 @@ import android.util.Log;
  * For a production version, the default version of HttpClient should be used and the application
  * server should not use a self-signed certificate.
  * <p>
- * @author Scott Slaugh
+ * @author Scott Slaugh & Seth Dickson
  *
  */
 public class HttpInterface {
@@ -50,9 +55,11 @@ public class HttpInterface {
 	private DefaultHttpClient httpClient;
 
 	/**
-	 * This is the base URL of the web service.  It is preprended to all web requests.
+	 * This is the base URL of the web service.  It is prepended to all web requests.
 	 */
-	public final static String BASEURL = "https://twenty.cs.byu.edu/twenty/";
+	//public final static String BASEURL = "https://twenty.cs.byu.edu/twenty/";
+	//For testing just use localhost address:
+	public final static String BASEURL = "http://10.0.2.2:8000/twenty/";
 
 	/**
 	 * Get the singleton instance.
@@ -81,11 +88,10 @@ public class HttpInterface {
 
 		// registers schemes for both http and https
 		SchemeRegistry registry = new SchemeRegistry();
-		registry.register(new Scheme("http", PlainSocketFactory
-				.getSocketFactory(), 80));
-		registry.register(new Scheme("https", new EasySSLSocketFactory(), 443));
-		ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(
-				params, registry);
+		registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		//Remove the https scheme for testing so you don't need to worry about signatures (Won't work if you're testing on an actual device since it can't see your localhost.)
+		//registry.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+		ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(params, registry);
 		ret = new DefaultHttpClient(manager, params);
 		httpClient = ret;
 	}
@@ -101,14 +107,44 @@ public class HttpInterface {
 			IOException {
 		if (url.startsWith("/"))
 			url.replaceFirst("/", "");
-
+		Log.i("twenty","requested url: " + url);
 		HttpGet get = new HttpGet(BASEURL + url);
 		HttpResponse response = httpClient.execute(get);
 		return response;
 	}
+	
+	public HttpResponse executePut(String url) throws ClientProtocolException, IOException{
+		if (url.startsWith("/"))
+			url.replaceFirst("/", "");
+		Log.i("twenty","requested url: " + url);
+		HttpPut put = new HttpPut(BASEURL + url);
+		HttpResponse response = httpClient.execute(put);
+		return response;		
+	}
+	
+	public HttpResponse executePost(String url, List<NameValuePair> nameValuePairs) throws ClientProtocolException,
+			IOException {
+		if (url.startsWith("/"))
+			url.replaceFirst("/", "");
+		Log.i("twenty","requested url: " + url);
+		HttpPost post = new HttpPost(BASEURL + url);
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));  
+        // Execute HTTP Post Request  
+        HttpResponse response = httpClient.execute(post);
+        return response;  	
+	}
+	
+	public HttpResponse executeDelete(String url) throws ClientProtocolException, IOException{
+		if (url.startsWith("/"))
+			url.replaceFirst("/", "");
+		Log.i("twenty","requested url: " + url);
+		HttpDelete delete = new HttpDelete(BASEURL + url);
+		HttpResponse response = httpClient.execute(delete);
+		return response;		
+	}
 
 	/**
-	 * Get a stirng holding the response body from an HttpResponse.
+	 * Get a string holding the response body from an HttpResponse.
 	 * @param response The HttpResponse to get the body of.
 	 * @return A string holding the response body.
 	 * @throws IOException
