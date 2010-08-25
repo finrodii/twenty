@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:gravity="center"
+  android:layout_gravity="center"
+  android:padding="10dip"
+  >
+  
+  	<TextView  android:id="@+id/person_name"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:gravity="center"
+		android:textSize="30sp" />
+
+	<View  android:id="@+id/seperate_line" 
+		android:layout_width="fill_parent" 
+		android:layout_height="3dip" 
+		android:background="#DDDDDDDD" 
+		android:layout_below="@id/person_name"/> 	
+
+	<TableLayout
+		android:id="@+id/person_table"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:stretchColumns="2"
+	    android:textSize="20sp"
+	    android:layout_below="@id/seperate_line">
+	    
+	    <TableRow>
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Father:"
+				android:padding="3dip"/>
+		  	<TextView  android:id="@+id/father_name"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+			
+	    <TableRow>	
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Mother:"
+				android:padding="3dip"/>		
+		  	<TextView  android:id="@+id/mother_name"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+
+	    <TableRow>	
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Spouse:"
+				android:padding="3dip"/>		
+		  	<TextView  android:id="@+id/spouse_name"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+
+	    <TableRow>	
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Birth:"
+				android:padding="3dip"/>
+		  	<TextView  android:id="@+id/birth_date"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+
+	    <TableRow>	
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Death:"
+				android:padding="3dip"/>		
+		  	<TextView  android:id="@+id/death_date"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+
+	    <TableRow>	
+		  	<TextView 
+		  		android:layout_column="1"
+		  		android:text="Marriage:"
+				android:padding="3dip"/>		
+		  	<TextView  android:id="@+id/marriage_date"
+		  		android:layout_column="2"
+				android:padding="3dip"/>
+		</TableRow>
+	
+	</TableLayout>
+
+	<View  android:id="@+id/seperate_line_2" 
+		android:layout_width="fill_parent" 
+		android:layout_height="3dip" 
+		android:background="#DDDDDDDD" 
+		android:layout_below="@id/person_table"/> 	
+	
+	<LinearLayout
+		android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" 
+	    android:layout_below="@id/seperate_line_2">
+   		<TextView 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"    		
+	  		android:text="Children:"
+			android:padding="3dip"/>	
+	    
+	    <ListView android:id="@+id/children_list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="3dip"/>
+	</LinearLayout>
+	
+</RelativeLayout>
