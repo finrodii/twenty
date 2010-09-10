@@ -57,9 +57,9 @@ public class HttpInterface {
 	/**
 	 * This is the base URL of the web service.  It is prepended to all web requests.
 	 */
-	//public final static String BASEURL = "https://twenty.cs.byu.edu/twenty/";
+	public final static String BASEURL = "https://twenty.cs.byu.edu/twenty/";
 	//For testing just use localhost address:
-	public final static String BASEURL = "http://10.0.2.2:8000/twenty/";
+	//public final static String BASEURL = "http://10.0.2.2:8000/twenty/";
 
 	/**
 	 * Get the singleton instance.
@@ -90,7 +90,7 @@ public class HttpInterface {
 		SchemeRegistry registry = new SchemeRegistry();
 		registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 		//Remove the https scheme for testing so you don't need to worry about signatures (Won't work if you're testing on an actual device since it can't see your localhost.)
-		//registry.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+		registry.register(new Scheme("https", new EasySSLSocketFactory(), 443));
 		ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(params, registry);
 		ret = new DefaultHttpClient(manager, params);
 		httpClient = ret;
