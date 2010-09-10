@@ -95,7 +95,7 @@ public class SearchResults extends ListActivity {
         cbla = new CheckBoxifiedIndexAdapter(this);
         listSpinner = (Spinner) findViewById(R.id.spinner);
         listSpinner.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-        listSpinner.setScrollbarFadingEnabled(true);
+        //listSpinner.setScrollbarFadingEnabled(true);
         list_pos_id = new ArrayList<String>();
         nameValuePairs = new ArrayList<NameValuePair>(2); 
         list_id = null;
