@@ -62,11 +62,11 @@ public class SearchResults extends ListActivity {
 	private String listsResults;
 	private String list_id;
 	private String list_name;
-	private String todo_lists[];
+	private ArrayList<String> todo_array;
 	private ArrayList<String> list_pos_id;
 	private List<NameValuePair> nameValuePairs;
 	private Spinner listSpinner;
-	ArrayAdapter<String> adapter;
+	private ArrayAdapter<String> adapter;
 	private EditText mCreateListText;
 	private ArrayList<Integer> searches;
 	
@@ -96,6 +96,7 @@ public class SearchResults extends ListActivity {
         listSpinner = (Spinner) findViewById(R.id.spinner);
         listSpinner.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
         //listSpinner.setScrollbarFadingEnabled(true);
+        todo_array = new ArrayList<String>();
         list_pos_id = new ArrayList<String>();
         nameValuePairs = new ArrayList<NameValuePair>(2); 
         list_id = null;
@@ -228,11 +229,10 @@ public class SearchResults extends ListActivity {
 		//Create a map object from the result.
 		List<String> parseResult = (List<String>)HttpInterface.parseJSON(httpResult);
 
-		int size = (parseResult.isEmpty()) ? 1 : parseResult.size() + 1;
-        todo_lists=new String[size];
-        
 		if (!list_pos_id.isEmpty())
 			list_pos_id.clear();
+		if (!todo_array.isEmpty())
+			todo_array.clear();		
 		//Iterate over every person in the list
 		int index=0;
 		for (String cList : parseResult) {
@@ -243,13 +243,13 @@ public class SearchResults extends ListActivity {
 			if (listName.compareTo("completed_tasks")==0)
 				continue;
 
-			todo_lists[index]=listName;
+			todo_array.add(listName);
 			list_pos_id.add(listInfo.get("id").toString());
 			index++;
 		}
-		todo_lists[index] = "New list...";		
+		todo_array.add("New list...");
 		
-        adapter = new ArrayAdapter<String>(instanceRef, android.R.layout.simple_spinner_item, todo_lists);
+        adapter = new ArrayAdapter<String>(instanceRef, android.R.layout.simple_spinner_item, todo_array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	}
 
